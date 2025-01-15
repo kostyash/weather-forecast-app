@@ -19,3 +19,8 @@ export interface Forecast {
     location: string;
     days: DayForeCast[]
 }
+
+export interface GeoLocation {
+    latitude: number;
+    longitude: number;
+}

@@ -22,9 +22,8 @@ export class MeteoService {
     .pipe(map((res: any) => this.transformToForecastWeather(res)));
   }
 
-  getCurrentWeatherByCity(city: string = ''): Observable<CurrentWeather> {
-    const location = city || 'tel aviv' || '42.3478,-71.0466';
-    return this.http.get(`${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`)
+  getCurrentWeatherByCity(city: string): Observable<CurrentWeather> {   
+    return this.http.get(`${this.baseUrl}/current.json?q=${city}&key=${this.API_KEY}`)
       .pipe(map((res: any) => this.transformToCurrentWeather(res)));
   }
 
