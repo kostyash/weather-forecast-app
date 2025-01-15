@@ -1,0 +1,7 @@
+<form class="city-form" [formGroup]="cityForm" (ngSubmit)="onSubmit()">
+    <div >
+        <label for="city">City:</label>
+        <input id="city" formControlName="city" />
+    </div>
+    <button type="submit">Search</button>
+</form>
