@@ -1,5 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { switchMap } from 'rxjs';
@@ -7,9 +10,6 @@ import { CurrentWeatherComponent } from '../current-weather/current-weather.comp
 import { toLoadingStateStream } from '../loading-state-utils';
 import { MeteoService } from '../meteo.service';
 import { selectCity } from '../state/selectors';
-import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-current-weather-container',

@@ -1,7 +1,7 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { CacheService } from './cache.service';
 import { of, tap } from 'rxjs';
+import { CacheService } from './cache.service';
 
 export const cachingInterceptor: HttpInterceptorFn = (req, next) => {
   const cacheKey = req.urlWithParams;

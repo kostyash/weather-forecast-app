@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { setCity } from './actions';
 import { LocationState } from '../contracts';
+import { setCity } from './actions';
 
 export const initialState: LocationState = {city : ''};
 

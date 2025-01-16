@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CurrentWeather } from '../contracts';
 import { MatCardModule } from '@angular/material/card';
+import { CurrentWeather } from '../contracts';
 
 @Component({
   selector: 'app-current-weather',

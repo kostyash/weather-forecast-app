@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { GeoLocation } from './contracts';
 import { Observable } from 'rxjs';
+import { GeoLocation } from './contracts';
 
 @Injectable({
   providedIn: 'root',

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, delay, map, Observable, of, switchMap } from 'rxjs';
+import { delay, map, Observable, of, switchMap } from 'rxjs';
 import { CurrentWeather, Forecast } from './contracts';
 import { GeolocationService } from './geolocation.service';
 
