@@ -1,7 +1,15 @@
-<form class="city-form" [formGroup]="cityForm" (ngSubmit)="onSubmit()">
-    <div >
-        <label for="city">City:</label>
-        <input id="city" formControlName="city" />
-    </div>
-    <button type="submit">Search</button>
-</form>
+<mat-card appearance="outlined">
+    <mat-card-content>
+        <form class="city-form" [formGroup]="cityForm" (ngSubmit)="onSubmit()">
+
+            <mat-form-field class="dense-3" appearance="outline" subscriptSizing=dynamic>
+                <mat-label>City</mat-label>
+                <input id="city" formControlName="city" matInput>
+            </mat-form-field>
+
+
+            <button type="submit" mat-stroked-button>Search</button>
+
+        </form>
+    </mat-card-content>
+</mat-card>

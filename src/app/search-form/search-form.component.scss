@@ -3,4 +3,10 @@
     justify-content: center;
     flex-wrap: nowrap;
     gap: 1rem;
+    align-items: center;
+}
+
+
+.mat-mdc-card-outlined {
+    border-radius: 0;
 }

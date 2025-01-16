@@ -1,16 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { switchMap } from 'rxjs';
+import { CurrentWeatherComponent } from '../current-weather/current-weather.component';
+import { toLoadingStateStream } from '../loading-state-utils';
 import { MeteoService } from '../meteo.service';
 import { selectCity } from '../state/selectors';
-import { CurrentWeatherComponent} from '../current-weather/current-weather.component';
-import { AsyncPipe, NgIf } from '@angular/common';
-import { toLoadingStateStream } from '../loading-state-utils';
 
 @Component({
   selector: 'app-current-weather-container',
-  imports: [RouterLink, RouterLinkActive, CurrentWeatherComponent, NgIf, AsyncPipe],
+  imports: [RouterLink, RouterLinkActive, CurrentWeatherComponent, AsyncPipe],
   templateUrl: './current-weather-container.component.html',
   styleUrl: './current-weather-container.component.scss'
 })
