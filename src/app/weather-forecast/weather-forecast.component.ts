@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Forecast } from '../contracts';
-import { JsonPipe } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-weather-forecast',
-  imports: [JsonPipe],
+  imports: [MatCardModule],
   templateUrl: './weather-forecast.component.html',
   styleUrl: './weather-forecast.component.scss'
 })

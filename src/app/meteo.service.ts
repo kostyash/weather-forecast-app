@@ -53,7 +53,7 @@ export class MeteoService {
         condition: day.day.condition.text,
         image: day.day.condition.icon,
         minTemperature: Math.round(day.day.mintemp_c),
-        maxTemperature: Math.round(day.day.maxtemp_c)
+        maxTemperature: Math.round(day.day.maxtemp_c)       
       })
     )
     return forecast;

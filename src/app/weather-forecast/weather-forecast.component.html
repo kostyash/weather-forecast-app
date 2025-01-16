@@ -1,6 +1,22 @@
-<h1>{{forecast.location}}</h1>
+<h2 class="location">{{forecast.location}}</h2>
 <div class="forecast-wrapper">
     @for (item of forecast.days; track item.date) {
-        <div> {{ item | json }} </div>
-        }
+    <mat-card class="weather-card" appearance="outlined">
+        <mat-card-header class="weather-data">
+
+            <mat-card-title class="weather-title"> <span mat-card-avatar> <img mat-card-image [src]=item.image
+                        width="40" height="40" [alt]="item.condition"></span>
+            </mat-card-title>
+            <mat-card-subtitle>{{item.date}}</mat-card-subtitle>
+
+        </mat-card-header>
+
+        <mat-card-content class="weather-data">
+            <div> {{ item.condition }} </div>
+           
+            <span>Temperature: {{ item.minTemperature }}°C - {{ item.maxTemperature }}°C</span>
+        </mat-card-content>
+    </mat-card>
+    }
+
 </div>

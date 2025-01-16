@@ -13,7 +13,7 @@ export interface DayForeCast {
     maxTemperature: number;
     condition: string;
     image: string;
-    date: string;
+    date: string;   
 }
 
 export interface Forecast {

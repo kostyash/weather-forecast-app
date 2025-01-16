@@ -9,10 +9,11 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { toLoadingStateStream } from '../loading-state-utils';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-weather-forecast-container',
-  imports: [RouterLink, RouterLinkActive, WeatherForecastComponent, AsyncPipe, MatProgressSpinnerModule, MatCardModule],
+  imports: [RouterLink, RouterLinkActive, WeatherForecastComponent, AsyncPipe, MatProgressSpinnerModule, MatCardModule, MatButtonModule],
   templateUrl: './weather-forecast-container.component.html',
   styleUrl: './weather-forecast-container.component.scss'
 })
