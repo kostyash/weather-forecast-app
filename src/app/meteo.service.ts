@@ -33,7 +33,8 @@ export class MeteoService {
   private transformToCurrentWeather(res: any): CurrentWeather {
     return {
       date: res.location.localtime,
-      location: `${res.location.name} ${res.location.region} ${res.location.country}`,
+      location: `${res.location.name}`,
+      desc: `${res.location.region} ${res.location.country}`,
       condition: res.current.condition.text,
       image: res.current.condition.icon,
       humidity: res.current.humidity,

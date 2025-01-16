@@ -1,9 +1,19 @@
 <div class="current-weather-wrapper">
-    <h1>{{weather.location}}</h1>
-    <div> {{ weather.condition }} </div>
-    <div> {{ weather.date }} </div>
-    <div> {{ weather.humidity }} </div>
-    <div> {{ weather.temperature }} </div>
-    <div> {{ weather.image }} </div>
-</div>
+    <mat-card class="weather-card" appearance="outlined">
+        <mat-card-header class="weather-data">
 
+            <mat-card-title class="weather-title"> <span mat-card-avatar> <img mat-card-image [src]=weather.image width="40" height="40"
+                        [alt]="weather.condition"></span><span class="location">{{weather.location}}</span>
+            </mat-card-title>
+            <mat-card-subtitle>{{weather.desc}}</mat-card-subtitle>
+            <mat-card-subtitle>{{weather.date}}</mat-card-subtitle>
+
+        </mat-card-header>
+
+        <mat-card-content class="weather-data">
+            <div> {{ weather.condition }} </div>
+            <span>Humidity: {{ weather.humidity }}% </span>
+            <span>Temperature: {{ weather.temperature }}°C </span>
+        </mat-card-content>
+    </mat-card>
+</div>

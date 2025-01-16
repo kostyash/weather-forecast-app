@@ -7,7 +7,8 @@ describe('WeatherTodayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CurrentWeatherComponent]    
+      imports: [CurrentWeatherComponent],
+      providers: []    
     })
       .compileComponents();
 
@@ -19,7 +20,8 @@ describe('WeatherTodayComponent', () => {
       humidity: 3,
       image: 'ghr.png',
       temperature: 23,
-      location: 'Petah Tikwa'
+      location: 'Petah Tikwa',
+      desc: 'Israel'
     }
     fixture.detectChanges();
   });

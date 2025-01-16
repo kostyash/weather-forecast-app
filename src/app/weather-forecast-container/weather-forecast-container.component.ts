@@ -7,10 +7,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { WeatherForecastComponent } from '../weather-forecast/weather-forecast.component';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { toLoadingStateStream } from '../loading-state-utils';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-weather-forecast-container',
-  imports: [RouterLink, RouterLinkActive, WeatherForecastComponent, AsyncPipe],
+  imports: [RouterLink, RouterLinkActive, WeatherForecastComponent, AsyncPipe, MatProgressSpinnerModule, MatCardModule],
   templateUrl: './weather-forecast-container.component.html',
   styleUrl: './weather-forecast-container.component.scss'
 })

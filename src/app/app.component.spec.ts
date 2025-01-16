@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideMockStore({ initialState: { city: '' } }),]
+      providers: [provideMockStore({ initialState: { city: '' } }), provideNoopAnimations()]
     }).compileComponents();
   });
 

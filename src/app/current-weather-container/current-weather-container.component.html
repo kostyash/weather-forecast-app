@@ -1,16 +1,21 @@
+<div class="weather-wrapper">
+    @if (weather$  | async; as weather) {
+        @switch (weather.state) {
+          @case ("loading") {
+            <mat-spinner></mat-spinner>
+          }
+          @case ("error") {
 
-@if (weather$  | async; as weather) {
-    @switch (weather.state) {
-      @case ("loading") {
-        Loading...
-      }
-      @case ("error") {
-        Error:  Failed load weather for required location 
-      }
-      @case ("loaded") {
-        <app-current-weather [weather]="weather.data"></app-current-weather>
-      }
-    }
-  }
+            <mat-card appearance="outlined">
+                <mat-card-content>Failed load weather for required location</mat-card-content>
+            </mat-card>
+          
+          }
+          @case ("loaded") {
+            <app-current-weather [weather]="weather.data"></app-current-weather>
+          }
+        }
+      }   
+      <a mat-flat-button routerLink="/forecast" routerLinkActive="active" ariaCurrentWhenActive="page">Show Forecast</a>      
+</div>
 
-<a routerLink="/forecast" routerLinkActive="active" ariaCurrentWhenActive="page">Show Forecast</a>

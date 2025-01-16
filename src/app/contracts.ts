@@ -1,5 +1,6 @@
 export interface CurrentWeather {
     location: string;
+    desc: string;
     temperature: number;
     humidity: number;
     condition: string;

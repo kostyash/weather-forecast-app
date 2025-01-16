@@ -1,10 +1,13 @@
+<div class="forecast-wrapper">
   @if (forecast$  | async; as forecast) {
     @switch (forecast.state) {
       @case ("loading") {
-        Loading...
+        <mat-spinner></mat-spinner>
       }
       @case ("error") {
-        Error:  Failed load weather for required location 
+        <mat-card appearance="outlined">
+            <mat-card-content>Failed to load forecast for required location</mat-card-content>
+        </mat-card>
       }
       @case ("loaded") {
         <app-weather-forecast [forecast]="forecast.data"></app-weather-forecast>
@@ -13,3 +16,4 @@
   }
 
 <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Go to Current Weather Page</a>
+</div>
