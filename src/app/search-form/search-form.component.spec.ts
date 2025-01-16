@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchFormComponent } from './search-form.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('SearchFormComponent', () => {
   let component: SearchFormComponent;
@@ -8,7 +9,8 @@ describe('SearchFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchFormComponent]
+      imports: [SearchFormComponent],
+      providers: [provideMockStore({ initialState: { city: '' } })]
     })
     .compileComponents();
 

@@ -8,10 +8,7 @@ describe('WeatherForecastComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WeatherForecastComponent],
-      providers: [        
-        provideRouter([])        
-      ],
+      imports: [WeatherForecastComponent]     
     })
     .compileComponents();
 

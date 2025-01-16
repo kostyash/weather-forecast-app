@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { CurrentWeather, Forecast } from './contracts';
+import { GeolocationService } from './geolocation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,19 @@ export class MeteoService {
 
   readonly forecastDays = 3;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private geolocationService: GeolocationService) { }
 
-  getForeCastByCity(city: string = ''): Observable<Forecast> {
-    const location = city || 'petah tikwa' || '42.3478,-71.0466';
-    return this.http.get(`${this.baseUrl}/forecast.json?q=${location}&days=${this.forecastDays}&key=${this.API_KEY}`)
-    .pipe(map((res: any) => this.transformToForecastWeather(res)));
+  getForeCastByCity(city: string): Observable<Forecast> {
+    return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
+      .pipe(switchMap(location => this.http.get(`${this.baseUrl}/forecast.json?q=${location}&days=${this.forecastDays}&key=${this.API_KEY}`)),
+        map((res: any) => this.transformToForecastWeather(res)));
   }
 
-  getCurrentWeatherByCity(city: string): Observable<CurrentWeather> {   
-    return this.http.get(`${this.baseUrl}/current.json?q=${city}&key=${this.API_KEY}`)
-      .pipe(map((res: any) => this.transformToCurrentWeather(res)));
+  getCurrentWeatherByCity(city: string): Observable<CurrentWeather> {
+
+    return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
+    .pipe(switchMap(location => this.http.get(`${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`)),
+      map((res: any) => this.transformToCurrentWeather(res)));
   }
 
   private transformToCurrentWeather(res: any): CurrentWeather {

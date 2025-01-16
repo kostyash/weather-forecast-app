@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { setCity } from '../state/actions';
 
 @Component({
   selector: 'app-search-form',
@@ -10,6 +12,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class SearchFormComponent implements OnInit {
   cityForm: FormGroup;
+
+  store = inject(Store);
 
   constructor(private fb: FormBuilder) {
     this.cityForm = this.fb.group({
@@ -22,7 +26,7 @@ export class SearchFormComponent implements OnInit {
 
   }
 
-  onSubmit(): void {
-    console.log(this.cityForm.value);
+  onSubmit(): void { 
+    this.store.dispatch(setCity({city: this.cityForm.value.city.trim()}));
   }
 }

@@ -1,20 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MeteoService } from '../meteo.service';
+import { Component, Input } from '@angular/core';
+import { Forecast } from '../contracts';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-weather-forecast',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [JsonPipe],
   templateUrl: './weather-forecast.component.html',
   styleUrl: './weather-forecast.component.scss'
 })
 export class WeatherForecastComponent {
 
+  @Input() forecast!: Forecast;
 
-  meteoService = inject(MeteoService);
-
-
-  ngOnInit(): void {
-    this.meteoService.getForeCastByCity().subscribe(console.log);
-  }
 }

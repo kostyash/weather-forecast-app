@@ -1,0 +1,4 @@
+<ng-container *ngIf="forecast$ | async as forecast">
+    <app-weather-forecast [forecast]="forecast"></app-weather-forecast>
+</ng-container>
+<a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Go to Current Weather Page</a>
