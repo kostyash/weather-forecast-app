@@ -6,6 +6,7 @@ import { MeteoService } from '../meteo.service';
 import { selectCity } from '../state/selectors';
 import { CurrentWeatherComponent} from '../current-weather/current-weather.component';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { toLoadingStateStream } from '../loading-state-utils';
 
 @Component({
   selector: 'app-current-weather-container',
@@ -18,7 +19,7 @@ export class CurrentWeatherContainerComponent {
   store = inject(Store);
 
   weather$ =  this.store.select(selectCity)
-  .pipe(switchMap(location => this.meteoService.getCurrentWeatherByCity(location)));
+  .pipe(switchMap(location => toLoadingStateStream(this.meteoService.getCurrentWeatherByCity(location))));
 
   
 }

@@ -1,1 +1,9 @@
-<p>{{weather | json}}</p>
+<div class="current-weather-wrapper">
+    <h1>{{weather.location}}</h1>
+    <div> {{ weather.condition }} </div>
+    <div> {{ weather.date }} </div>
+    <div> {{ weather.humidity }} </div>
+    <div> {{ weather.temperature }} </div>
+    <div> {{ weather.image }} </div>
+</div>
+

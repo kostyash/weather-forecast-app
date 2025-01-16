@@ -1,2 +1,6 @@
-<p>{{forecast | json}}</p>
-
+<h1>{{forecast.location}}</h1>
+<div class="forecast-wrapper">
+    @for (item of forecast.days; track item.date) {
+        <div> {{ item | json }} </div>
+        }
+</div>

@@ -14,6 +14,7 @@ describe('WeatherForecastComponent', () => {
 
     fixture = TestBed.createComponent(WeatherForecastComponent);
     component = fixture.componentInstance;
+    component.forecast ={location: 'Petah Tikwa', days: []}
     fixture.detectChanges();
   });
 

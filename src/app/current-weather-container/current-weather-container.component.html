@@ -1,8 +1,16 @@
 
-<app-current-weather></app-current-weather>
-
-<ng-container *ngIf="weather$ | async as weather">
-    <app-current-weather [weather]="weather"></app-current-weather>
-</ng-container>
+@if (weather$  | async; as weather) {
+    @switch (weather.state) {
+      @case ("loading") {
+        Loading...
+      }
+      @case ("error") {
+        Error:  Failed load weather for required location 
+      }
+      @case ("loaded") {
+        <app-current-weather [weather]="weather.data"></app-current-weather>
+      }
+    }
+  }
 
 <a routerLink="/forecast" routerLinkActive="active" ariaCurrentWhenActive="page">Show Forecast</a>

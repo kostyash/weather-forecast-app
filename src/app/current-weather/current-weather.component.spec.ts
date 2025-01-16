@@ -13,6 +13,14 @@ describe('WeatherTodayComponent', () => {
 
     fixture = TestBed.createComponent(CurrentWeatherComponent);
     component = fixture.componentInstance;
+    component.weather = {
+      condition: 'sunny',
+      date: '04 05 2024',
+      humidity: 3,
+      image: 'ghr.png',
+      temperature: 23,
+      location: 'Petah Tikwa'
+    }
     fixture.detectChanges();
   });
 

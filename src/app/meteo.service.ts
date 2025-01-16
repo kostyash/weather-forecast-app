@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { catchError, delay, map, Observable, of, switchMap } from 'rxjs';
 import { CurrentWeather, Forecast } from './contracts';
 import { GeolocationService } from './geolocation.service';
 
@@ -19,14 +19,14 @@ export class MeteoService {
 
   getForeCastByCity(city: string): Observable<Forecast> {
     return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
-      .pipe(switchMap(location => this.http.get(`${this.baseUrl}/forecast.json?q=${location}&days=${this.forecastDays}&key=${this.API_KEY}`)),
+      .pipe(switchMap(location => this.http.get(`${this.baseUrl}/forecast.json?q=${location}&days=${this.forecastDays}&key=${this.API_KEY}`)), delay(500),
         map((res: any) => this.transformToForecastWeather(res)));
   }
 
   getCurrentWeatherByCity(city: string): Observable<CurrentWeather> {
 
     return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
-    .pipe(switchMap(location => this.http.get(`${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`)),
+    .pipe(switchMap(location => this.http.get(`${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`)), delay(500),
       map((res: any) => this.transformToCurrentWeather(res)));
   }
 
@@ -37,7 +37,7 @@ export class MeteoService {
       condition: res.current.condition.text,
       image: res.current.condition.icon,
       humidity: res.current.humidity,
-      temperature: res.current.temp_c
+      temperature: Math.round(res.current.temp_c)
     }
   }
 
@@ -51,8 +51,8 @@ export class MeteoService {
         date: day.date,
         condition: day.day.condition.text,
         image: day.day.condition.icon,
-        minTemperature: day.day.mintemp_c,
-        maxTemperature: day.day.maxtemp_c
+        minTemperature: Math.round(day.day.mintemp_c),
+        maxTemperature: Math.round(day.day.maxtemp_c)
       })
     )
     return forecast;

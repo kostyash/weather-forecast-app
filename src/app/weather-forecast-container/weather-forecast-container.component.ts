@@ -6,10 +6,11 @@ import { Store } from '@ngrx/store';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { WeatherForecastComponent } from '../weather-forecast/weather-forecast.component';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { toLoadingStateStream } from '../loading-state-utils';
 
 @Component({
   selector: 'app-weather-forecast-container',
-  imports: [RouterLink, RouterLinkActive, WeatherForecastComponent, AsyncPipe, NgIf],
+  imports: [RouterLink, RouterLinkActive, WeatherForecastComponent, AsyncPipe],
   templateUrl: './weather-forecast-container.component.html',
   styleUrl: './weather-forecast-container.component.scss'
 })
@@ -18,7 +19,7 @@ export class WeatherForecastContainerComponent {
   store = inject(Store);
 
   forecast$ = this.store.select(selectCity)
-  .pipe(switchMap(location => this.meteoService.getForeCastByCity(location)));
+  .pipe(switchMap(location => toLoadingStateStream(this.meteoService.getForeCastByCity(location))));
 
  
 }
