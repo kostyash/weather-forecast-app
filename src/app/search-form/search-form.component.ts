@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,7 +15,7 @@ import { setCity } from '../state/actions';
   styleUrl: './search-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchFormComponent implements OnInit {
+export class SearchFormComponent {
   cityForm: FormGroup;
 
   store = inject(Store);
@@ -26,12 +26,7 @@ export class SearchFormComponent implements OnInit {
     })
   }
 
-
-  ngOnInit(): void {
-
-  }
-
-  onSubmit(): void { 
-    this.store.dispatch(setCity({city: this.cityForm.value.city.trim()}));
+  onSubmit(): void {
+    this.store.dispatch(setCity({ city: this.cityForm.value.city.trim() }));
   }
 }
