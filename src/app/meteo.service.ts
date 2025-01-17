@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, map, Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { CurrentWeather, Forecast } from './contracts';
 import { GeolocationService } from './geolocation.service';
 
@@ -19,15 +19,15 @@ export class MeteoService {
 
   getForeCastByCity(city: string): Observable<Forecast> {
     return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
-      .pipe(switchMap(location => this.http.get(`${this.baseUrl}/forecast.json?q=${location}&days=${this.forecastDays}&key=${this.API_KEY}`)), delay(500),
+      .pipe(switchMap(location => this.http.get(`${this.baseUrl}/forecast.json?q=${location}&days=${this.forecastDays}&key=${this.API_KEY}`)),
         map((res: any) => this.transformToForecastWeather(res)));
   }
 
   getCurrentWeatherByCity(city: string): Observable<CurrentWeather> {
 
     return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
-    .pipe(switchMap(location => this.http.get(`${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`)), delay(500),
-      map((res: any) => this.transformToCurrentWeather(res)));
+      .pipe(switchMap(location => this.http.get(`${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`)),
+        map((res: any) => this.transformToCurrentWeather(res)));
   }
 
   private transformToCurrentWeather(res: any): CurrentWeather {
@@ -53,7 +53,7 @@ export class MeteoService {
         condition: day.day.condition.text,
         image: day.day.condition.icon,
         minTemperature: Math.round(day.day.mintemp_c),
-        maxTemperature: Math.round(day.day.maxtemp_c)       
+        maxTemperature: Math.round(day.day.maxtemp_c)
       })
     )
     return forecast;
