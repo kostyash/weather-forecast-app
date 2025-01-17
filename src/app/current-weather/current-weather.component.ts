@@ -12,10 +12,4 @@ import { CurrentWeather } from '../contracts';
 export class CurrentWeatherComponent {
 
   @Input() weather!: CurrentWeather;
-
-
-  ngOnInit(): void {
-
-
-  }
 }
