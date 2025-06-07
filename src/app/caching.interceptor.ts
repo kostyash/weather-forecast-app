@@ -8,16 +8,15 @@ export const cachingInterceptor: HttpInterceptorFn = (req, next) => {
   const cacheService = inject(CacheService);
   const cachedResponse = cacheService.getCache(cacheKey);
   if (cachedResponse) {
-    return of(cachedResponse);
+    return of(new HttpResponse({ body: cachedResponse }));
   }
 
   return next(req).pipe(
     tap((event) => {
       if (event instanceof HttpResponse) {
         if (req.method === 'GET' && req.url.includes('api.weatherapi.com')) {
-          cacheService.setCache(cacheKey, { data: event, maxAge: 90000 });
+          cacheService.setCache(cacheKey, event.body);
         }
-
       }
     })
   );

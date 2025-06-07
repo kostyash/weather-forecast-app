@@ -68,11 +68,23 @@ describe('CurrentWeatherContainerComponent', () => {
   });
 
   it('should show loading state initially', fakeAsync(() => {
+    // Set an initial city to trigger the loading state
+    store.setState({
+      [FeatureKey]: { city: 'test-city' },
+    });
+
     fixture.detectChanges();
-    tick();
+    tick(); // Wait for async pipe
+    fixture.detectChanges(); // Detect changes after async pipe updates
 
     const loadingSpinner = fixture.debugElement.query(By.css('mat-spinner'));
     expect(loadingSpinner).toBeTruthy();
+
+    // Mock the HTTP request to prevent unhandled request error
+    const req = httpMock.expectOne(
+      'http://api.weatherapi.com/v1/current.json?q=test-city&key=2e27373ae895408b87b175243251501'
+    );
+    req.flush({}); // Respond with empty object
   }));
 
   it('should handle error state', fakeAsync(() => {

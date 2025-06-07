@@ -6,14 +6,11 @@ const cacheLife = 600000; // ms
   providedIn: 'root',
 })
 export class CacheService {
-  
-
   private cache = new Map<string, any>();
 
-  setCache(key: string, data: any) { 
-    this.cache.set(key, { ...data, timestamp: new Date().getTime(),  });
+  setCache(key: string, data: any) {
+    this.cache.set(key, { data, timestamp: new Date().getTime() });
   }
-
 
   getCache(key: string): any {
     const cacheEntry = this.cache.get(key);
@@ -23,7 +20,7 @@ export class CacheService {
       if (currentTime - timestamp < cacheLife) {
         return data;
       } else {
-        this.cache.delete(key); 
+        this.cache.delete(key);
       }
     }
     return null;
