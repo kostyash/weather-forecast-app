@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { CurrentWeather } from '../contracts';
 
@@ -7,9 +7,8 @@ import { CurrentWeather } from '../contracts';
   imports: [MatCardModule],
   templateUrl: './current-weather.component.html',
   styleUrl: './current-weather.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentWeatherComponent {
-
-  @Input() weather!: CurrentWeather;
+  weather = input<CurrentWeather>();
 }
