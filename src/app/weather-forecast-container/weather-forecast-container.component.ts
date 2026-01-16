@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { switchMap } from 'rxjs';
 import { toLoadingStateStream } from '../loading-state-utils';
 import { MeteoService } from '../meteo.service';
-import { selectCity } from '../state/selectors';
+import { selectCity } from '../state';
 import { WeatherForecastComponent } from '../weather-forecast/weather-forecast.component';
 
 @Component({

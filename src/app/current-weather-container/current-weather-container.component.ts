@@ -7,7 +7,7 @@ import { switchMap } from 'rxjs';
 import { CurrentWeatherComponent } from '../current-weather/current-weather.component';
 import { toLoadingStateStream } from '../loading-state-utils';
 import { MeteoService } from '../meteo.service';
-import { selectCity } from '../state/selectors';
+import { selectCity } from '../state';
 
 @Component({
   selector: 'app-current-weather-container',

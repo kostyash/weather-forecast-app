@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { setCity } from '../state/actions';
+import { setCity } from '../state';
 import { MeteoService } from '../meteo.service';
 import { LocationSuggestion } from '../contracts';
 

@@ -1,20 +1,7 @@
 import { catchError, map, Observable, of, startWith } from "rxjs";
+import { Errored, Loaded, Loading, LoadingState } from "./contracts";
 
-interface Loading {
-    state: "loading";
-}
-
-interface Loaded<T> {
-    state: "loaded";
-    data: T;
-}
-
-interface Errored {
-    state: "error";
-    error: Error;
-}
-
-export type LoadingState<T = unknown> = Loading | Loaded<T> | Errored;
+export type { LoadingState };
 
 export function toLoadingStateStream<T>(
     source$: Observable<T>,

@@ -5,8 +5,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { cachingInterceptor } from './caching.interceptor';
 import { provideState, provideStore } from '@ngrx/store';
-import { FeatureKey } from './state/selectors';
-import { locationReducer } from './state/reducer';
+import { FeatureKey, locationReducer } from './state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
