@@ -30,7 +30,7 @@ describe('cachingInterceptor', () => {
     interceptor(req, () =>
       of(new HttpResponse({ body: { foo: 'should not be called' } }))
     ).subscribe((res) => {
-      expect((res as HttpResponse<any>).body.foo).toBe('bar');
+      expect((res as HttpResponse<{ foo: string }>).body?.foo).toBe('bar');
       done();
     });
   });
@@ -43,7 +43,7 @@ describe('cachingInterceptor', () => {
     );
     const next = () => of(new HttpResponse({ body: { foo: 'bar' } }));
     interceptor(req, next).subscribe((res) => {
-      expect((res as HttpResponse<any>).body.foo).toBe('bar');
+      expect((res as HttpResponse<{ foo: string }>).body?.foo).toBe('bar');
       // Should be cached now
       expect(cacheService.getCache(req.urlWithParams)).toBeTruthy();
       done();
@@ -52,13 +52,14 @@ describe('cachingInterceptor', () => {
 
   it('should not cache non-GET requests', (done) => {
     const cacheService = TestBed.inject(CacheService);
-    const req = new (HttpRequest as any)(
+    const req = new HttpRequest(
       'POST',
-      'http://api.weatherapi.com/v1/test?q=city'
+      'http://api.weatherapi.com/v1/test?q=city',
+      {}
     );
     const next = () => of(new HttpResponse({ body: { foo: 'bar' } }));
     interceptor(req, next).subscribe((res) => {
-      expect((res as HttpResponse<any>).body.foo).toBe('bar');
+      expect((res as HttpResponse<{ foo: string }>).body?.foo).toBe('bar');
       expect(cacheService.getCache(req.urlWithParams)).toBeNull();
       done();
     });
@@ -69,7 +70,7 @@ describe('cachingInterceptor', () => {
     const req = new HttpRequest('GET', 'http://example.com/api');
     const next = () => of(new HttpResponse({ body: { foo: 'bar' } }));
     interceptor(req, next).subscribe((res) => {
-      expect((res as HttpResponse<any>).body.foo).toBe('bar');
+      expect((res as HttpResponse<{ foo: string }>).body?.foo).toBe('bar');
       expect(cacheService.getCache(req.urlWithParams)).toBeNull();
       done();
     });

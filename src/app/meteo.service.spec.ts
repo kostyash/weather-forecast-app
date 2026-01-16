@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { GeolocationService } from './geolocation.service';
 import { MeteoService } from './meteo.service';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 
 describe('MeteoService', () => {
   let service: MeteoService;

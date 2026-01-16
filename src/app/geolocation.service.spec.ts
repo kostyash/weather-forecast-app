@@ -2,9 +2,16 @@ import { TestBed } from '@angular/core/testing';
 
 import { GeolocationService } from './geolocation.service';
 
+interface MockGeolocation {
+  getCurrentPosition: (
+    success: (position: { coords: { latitude: number; longitude: number } }) => void,
+    error?: (err: string) => void
+  ) => void;
+}
+
 describe('GeolocationService', () => {
   let service: GeolocationService;
-  let originalGeolocation: any;
+  let originalGeolocation: Geolocation;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -13,7 +20,10 @@ describe('GeolocationService', () => {
   });
 
   afterEach(() => {
-    (global as any).navigator.geolocation = originalGeolocation;
+    Object.defineProperty(navigator, 'geolocation', {
+      value: originalGeolocation,
+      writable: true,
+    });
   });
 
   it('should be created', () => {
@@ -22,9 +32,13 @@ describe('GeolocationService', () => {
 
   it('should get geolocation (success)', (done) => {
     const mockPosition = { coords: { latitude: 1, longitude: 2 } };
-    (global as any).navigator.geolocation = {
-      getCurrentPosition: (success: any) => success(mockPosition),
+    const mockGeolocation: MockGeolocation = {
+      getCurrentPosition: (success) => success(mockPosition),
     };
+    Object.defineProperty(navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    });
     service.getGeoLocation().subscribe((pos) => {
       expect(pos.latitude).toBe(1);
       expect(pos.longitude).toBe(2);
@@ -33,9 +47,13 @@ describe('GeolocationService', () => {
   });
 
   it('should error if geolocation fails', (done) => {
-    (global as any).navigator.geolocation = {
-      getCurrentPosition: (_: any, error: any) => error('fail'),
+    const mockGeolocation: MockGeolocation = {
+      getCurrentPosition: (_, error) => error?.('fail'),
     };
+    Object.defineProperty(navigator, 'geolocation', {
+      value: mockGeolocation,
+      writable: true,
+    });
     service.getGeoLocation().subscribe({
       error: (err) => {
         expect(err).toBe('fail');
@@ -45,7 +63,10 @@ describe('GeolocationService', () => {
   });
 
   it('should error if geolocation is unavailable', (done) => {
-    (global as any).navigator.geolocation = undefined;
+    Object.defineProperty(navigator, 'geolocation', {
+      value: undefined,
+      writable: true,
+    });
     service.getGeoLocation().subscribe({
       error: (err) => {
         expect(err).toBe('Geolocation is not available in this browser.');
