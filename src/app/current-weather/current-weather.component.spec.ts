@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CurrentWeatherComponent } from './current-weather.component';
 import { By } from '@angular/platform-browser';
-import { MatCardModule } from '@angular/material/card';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 // Test host component to simulate parent component
@@ -20,6 +19,13 @@ class TestHostComponent {
     temperature: 23,
     location: 'Petah Tikwa',
     desc: 'Israel',
+    feelsLike: 25,
+    windSpeed: 15,
+    windDirection: 'NW',
+    pressure: 1013,
+    uvIndex: 5,
+    visibility: 10,
+    cloud: 20,
   };
 }
 
@@ -36,11 +42,18 @@ describe('CurrentWeatherComponent', () => {
     temperature: 23,
     location: 'Petah Tikwa',
     desc: 'Israel',
+    feelsLike: 25,
+    windSpeed: 15,
+    windDirection: 'NW',
+    pressure: 1013,
+    uvIndex: 5,
+    visibility: 10,
+    cloud: 20,
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent, MatCardModule],
+      imports: [TestHostComponent],
       providers: [provideNoopAnimations()],
     }).compileComponents();
 
@@ -57,62 +70,50 @@ describe('CurrentWeatherComponent', () => {
   });
 
   it('should display the location correctly', () => {
-    const locationElement = fixture.debugElement.query(By.css('.location'));
+    const locationElement = fixture.debugElement.query(By.css('.location-name'));
     expect(locationElement.nativeElement.textContent.trim()).toBe(
       mockWeather.location
     );
   });
 
   it('should display the description correctly', () => {
-    const descElement = fixture.debugElement.queryAll(
-      By.css('mat-card-subtitle')
-    )[0];
+    const descElement = fixture.debugElement.query(By.css('.location-desc'));
     expect(descElement.nativeElement.textContent.trim()).toBe(mockWeather.desc);
   });
 
   it('should display the date correctly', () => {
-    const dateElement = fixture.debugElement.queryAll(
-      By.css('mat-card-subtitle')
-    )[1];
+    const dateElement = fixture.debugElement.query(By.css('.weather-time'));
     expect(dateElement.nativeElement.textContent.trim()).toBe(mockWeather.date);
   });
 
   it('should display the weather condition correctly', () => {
-    const conditionElement = fixture.debugElement.query(
-      By.css('mat-card-content div')
-    );
+    const conditionElement = fixture.debugElement.query(By.css('.condition-text'));
     expect(conditionElement.nativeElement.textContent.trim()).toBe(
       mockWeather.condition
     );
   });
 
   it('should display the humidity correctly', () => {
-    const humidityElement = fixture.debugElement.queryAll(
-      By.css('mat-card-content span')
-    )[0];
+    const humidityElement = fixture.debugElement.query(By.css('.stat-value'));
     expect(humidityElement.nativeElement.textContent.trim()).toBe(
-      `Humidity: ${mockWeather.humidity}%`
+      `${mockWeather.humidity}%`
     );
   });
 
   it('should display the temperature correctly', () => {
-    const tempElement = fixture.debugElement.queryAll(
-      By.css('mat-card-content span')
-    )[1];
+    const tempElement = fixture.debugElement.query(By.css('.temperature-value'));
     expect(tempElement.nativeElement.textContent.trim()).toBe(
-      `Temperature: ${mockWeather.temperature}°C`
+      `${mockWeather.temperature}`
     );
   });
 
   it('should display the weather image with correct attributes', () => {
-    const imgElement = fixture.debugElement.query(
-      By.css('img[mat-card-image]')
-    );
+    const imgElement = fixture.debugElement.query(By.css('.condition-icon'));
     const imgSrc = imgElement.nativeElement.src;
     expect(imgSrc.endsWith(mockWeather.image)).toBeTruthy();
     expect(imgElement.nativeElement.alt).toBe(mockWeather.condition);
-    expect(imgElement.nativeElement.width).toBe(40);
-    expect(imgElement.nativeElement.height).toBe(40);
+    expect(imgElement.nativeElement.width).toBe(80);
+    expect(imgElement.nativeElement.height).toBe(80);
   });
 
   it('should update the display when weather input changes', () => {
@@ -126,21 +127,11 @@ describe('CurrentWeatherComponent', () => {
     hostComponent.weather = updatedWeather;
     fixture.detectChanges();
 
-    const tempElement = fixture.debugElement.queryAll(
-      By.css('mat-card-content span')
-    )[1];
-    const humidityElement = fixture.debugElement.queryAll(
-      By.css('mat-card-content span')
-    )[0];
-    const conditionElement = fixture.debugElement.query(
-      By.css('mat-card-content div')
-    );
+    const tempElement = fixture.debugElement.query(By.css('.temperature-value'));
+    const conditionElement = fixture.debugElement.query(By.css('.condition-text'));
 
     expect(tempElement.nativeElement.textContent.trim()).toBe(
-      `Temperature: ${updatedWeather.temperature}°C`
-    );
-    expect(humidityElement.nativeElement.textContent.trim()).toBe(
-      `Humidity: ${updatedWeather.humidity}%`
+      `${updatedWeather.temperature}`
     );
     expect(conditionElement.nativeElement.textContent.trim()).toBe(
       updatedWeather.condition

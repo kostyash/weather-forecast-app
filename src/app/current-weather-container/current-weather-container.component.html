@@ -1,21 +1,26 @@
-<div class="weather-wrapper">
-    @if (weather$  | async; as weather) {
-        @switch (weather.state) {
-          @case ("loading") {
-            <mat-spinner></mat-spinner>
-          }
-          @case ("error") {
+<div class="weather-container">
+  @if (weather$ | async; as weather) {
+    @switch (weather.state) {
+      @case ("loading") {
+        <div class="loading-state">
+          <mat-spinner diameter="48"></mat-spinner>
+          <span class="loading-text">Fetching weather data...</span>
+        </div>
+      }
+      @case ("error") {
+        <div class="error-state">
+          <span class="error-icon">⚠</span>
+          <h3 class="error-title">Unable to load weather</h3>
+          <p class="error-message">Please check the city name and try again</p>
+        </div>
+      }
+      @case ("loaded") {
+        <app-current-weather [weather]="weather.data"></app-current-weather>
+      }
+    }
+  }
 
-            <mat-card appearance="outlined">
-                <mat-card-content>Failed load weather for required location</mat-card-content>
-            </mat-card>
-          
-          }
-          @case ("loaded") {
-            <app-current-weather [weather]="weather.data"></app-current-weather>
-          }
-        }
-      }   
-      <a mat-flat-button routerLink="/forecast" routerLinkActive="active" ariaCurrentWhenActive="page">Show Forecast</a>      
+  <nav class="weather-nav">
+    <a routerLink="/forecast" class="nav-button">View 3-Day Forecast →</a>
+  </nav>
 </div>
-

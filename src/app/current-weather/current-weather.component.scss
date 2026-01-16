@@ -1,38 +1,182 @@
-.current-weather-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.weather-display {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  padding: var(--space-md);
+  width: 100%;
+  max-width: 480px;
+  animation: fadeInUp 0.5s ease forwards;
 
-    .weather-card {
-        max-width: 300px;       
-        flex-direction: column;
-        align-items: center;
-    }
+  @media (min-width: 640px) {
+    padding: var(--space-lg);
+  }
+}
 
-    .weather-data {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.weather-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--glass-border);
+}
 
-    .weather-title {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: flex-start;
-        height: 40px;
-    }
+.location-info {
+  flex: 1;
+}
 
-    .location {
-        margin-top: 6px;
-        margin-left: 6px;
-        margin-right: 10px;
-        width: 100%;
-        text-align: center;      
-        left: 0;               
-    }
+.location-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
 
-    .mat-mdc-card-subtitle {
-        text-align: center;
-    }
+  @media (min-width: 640px) {
+    font-size: 1.5rem;
+  }
+}
+
+.location-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.weather-time {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.temperature-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.temperature-value {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+
+  @media (min-width: 640px) {
+    font-size: 4.5rem;
+  }
+}
+
+.temperature-unit {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.feels-like {
+  width: 100%;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.condition-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.condition-icon {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  animation: float 4s ease-in-out infinite;
+
+  @media (min-width: 640px) {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.condition-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 90px;
+}
+
+.weather-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xs);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--glass-border);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.stat-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.stat-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

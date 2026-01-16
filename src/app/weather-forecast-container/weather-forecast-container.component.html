@@ -1,18 +1,26 @@
-<div class="forecast-wrapper">
-  @if (forecast$  | async; as forecast) {
+<div class="forecast-container">
+  @if (forecast$ | async; as forecast) {
     @switch (forecast.state) {
       @case ("loading") {
-        <mat-spinner></mat-spinner>
+        <div class="loading-state">
+          <mat-spinner diameter="48"></mat-spinner>
+          <span class="loading-text">Loading forecast...</span>
+        </div>
       }
       @case ("error") {
-        <mat-card appearance="outlined">
-            <mat-card-content>Failed to load forecast for required location</mat-card-content>
-        </mat-card>
+        <div class="error-state">
+          <span class="error-icon">⚠</span>
+          <h3 class="error-title">Unable to load forecast</h3>
+          <p class="error-message">Please check the city name and try again</p>
+        </div>
       }
       @case ("loaded") {
         <app-weather-forecast [forecast]="forecast.data"></app-weather-forecast>
       }
     }
   }
-<a mat-flat-button routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Show Current Weather</a>   
+
+  <nav class="forecast-nav">
+    <a routerLink="/" class="nav-button">← Back to Current Weather</a>
+  </nav>
 </div>

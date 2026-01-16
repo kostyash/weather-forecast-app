@@ -1,6 +1,19 @@
-<div class="main">
-  <app-search-form></app-search-form>
+<div class="app-shell">
+  <header class="app-header">
+    <div class="header-content">
+      <div class="brand">
+        <span class="brand-icon">◐</span>
+        <h1 class="brand-name">Atmos</h1>
+      </div>
+      <app-search-form></app-search-form>
+    </div>
+  </header>
 
+  <main class="app-main">
+    <router-outlet />
+  </main>
+
+  <footer class="app-footer">
+    <span class="footer-text">Powered by WeatherAPI</span>
+  </footer>
 </div>
-
-<router-outlet />

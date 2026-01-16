@@ -1,10 +1,253 @@
-/* You can add global styles to this file, and also import other style files */
-
 @use '@angular/material' as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// === Design Tokens ===
+:root {
+  // Typography
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
 
+  // Colors - Atmospheric Deep Blue
+  --color-bg-start: #0f172a;
+  --color-bg-mid: #1e293b;
+  --color-bg-end: #334155;
+
+  // Glass effects
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  // Text colors
+  --text-primary: #f8fafc;
+  --text-secondary: rgba(248, 250, 252, 0.7);
+  --text-muted: rgba(248, 250, 252, 0.5);
+
+  // Accents
+  --accent-warm: #fbbf24;
+  --accent-cool: #38bdf8;
+  --accent-gradient: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+
+  // Spacing
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+
+  // Border radius
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  // Transitions
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// === Reset & Base ===
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--color-bg-start);
+  background: linear-gradient(
+    160deg,
+    var(--color-bg-start) 0%,
+    var(--color-bg-mid) 50%,
+    var(--color-bg-end) 100%
+  );
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  // Animated gradient overlay
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(251, 191, 36, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ambientShift 20s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes ambientShift {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1.1) translate(-2%, 2%);
+  }
+}
+
+// === Typography ===
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+// === Glass Card Utility ===
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+}
+
+// === Material Overrides ===
+.mat-mdc-card {
+  --mdc-elevated-card-container-color: var(--glass-bg);
+  --mdc-outlined-card-container-color: var(--glass-bg);
+  --mdc-outlined-card-outline-color: var(--glass-border);
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--glass-shadow) !important;
+  color: var(--text-primary);
+}
+
+.mat-mdc-card-title {
+  font-family: var(--font-display) !important;
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-card-subtitle {
+  color: var(--text-secondary) !important;
+}
+
+.mat-mdc-card-content {
+  color: var(--text-primary) !important;
+}
+
+// Form field overrides
+.mat-mdc-form-field {
+  --mdc-outlined-text-field-outline-color: var(--glass-border);
+  --mdc-outlined-text-field-focus-outline-color: var(--accent-warm);
+  --mdc-outlined-text-field-hover-outline-color: rgba(255, 255, 255, 0.25);
+  --mdc-outlined-text-field-label-text-color: var(--text-secondary);
+  --mdc-outlined-text-field-focus-label-text-color: var(--accent-warm);
+  --mdc-outlined-text-field-input-text-color: var(--text-primary);
+  --mdc-outlined-text-field-caret-color: var(--accent-warm);
+  --mat-form-field-container-text-color: var(--text-primary);
+  --mdc-theme-primary: var(--accent-warm);
+
+  .mdc-text-field--outlined {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+
+    &:not(.mdc-text-field--disabled) {
+      .mdc-notched-outline__leading,
+      .mdc-notched-outline__notch,
+      .mdc-notched-outline__trailing {
+        border-color: var(--glass-border) !important;
+      }
+
+      &.mdc-text-field--focused {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: var(--accent-warm) !important;
+        }
+      }
+    }
+  }
+
+  input.mat-mdc-input-element {
+    color: var(--text-primary) !important;
+  }
+
+  .mdc-floating-label--float-above {
+    color: var(--accent-warm) !important;
+  }
+}
+
+// Button overrides
+.mat-mdc-button, .mat-mdc-stroked-button {
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-base) !important;
+}
+
+.mat-mdc-stroked-button {
+  --mdc-outlined-button-outline-color: var(--glass-border);
+  --mdc-outlined-button-label-text-color: var(--text-primary);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--accent-cool) !important;
+  }
+}
+
+.mat-mdc-flat-button, .mat-mdc-raised-button, .mat-mdc-unelevated-button {
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--accent-gradient) !important;
+  background-color: var(--accent-warm) !important;
+  color: #0f172a !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(251, 191, 36, 0.3) !important;
+  transition: all var(--transition-base) !important;
+  --mdc-filled-button-container-color: var(--accent-warm) !important;
+  --mdc-filled-button-label-text-color: #0f172a !important;
+
+  .mdc-button__label {
+    color: #0f172a !important;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4) !important;
+  }
+
+  &:not(:disabled) {
+    background: var(--accent-gradient) !important;
+  }
+}
+
+// Spinner override
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: var(--accent-warm);
+}
+
+// === Material Density ===
 .dense-1 {
   @include mat.all-component-densities(-1);
 }
@@ -14,5 +257,50 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .dense-3 {
-    @include mat.all-component-densities(-3);
+  @include mat.all-component-densities(-3);
+}
+
+// === App container ===
+app-root {
+  display: block;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+// === Animations ===
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s var(--transition-base) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s var(--transition-base) forwards;
+}
+
+// Stagger delays
+@for $i from 1 through 10 {
+  .delay-#{$i} {
+    animation-delay: #{$i * 0.1}s;
+  }
+}

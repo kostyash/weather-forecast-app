@@ -2,18 +2,29 @@ export interface CurrentWeather {
     location: string;
     desc: string;
     temperature: number;
+    feelsLike: number;
     humidity: number;
     condition: string;
     image: string;
     date: string;
+    windSpeed: number;
+    windDirection: string;
+    pressure: number;
+    uvIndex: number;
+    visibility: number;
+    cloud: number;
 }
 
-export interface DayForeCast {    
+export interface DayForeCast {
     minTemperature: number;
     maxTemperature: number;
     condition: string;
     image: string;
-    date: string;   
+    date: string;
+    chanceOfRain: number;
+    maxWind: number;
+    avgHumidity: number;
+    uvIndex: number;
 }
 
 export interface Forecast {

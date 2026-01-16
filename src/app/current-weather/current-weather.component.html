@@ -1,18 +1,77 @@
-<div class="current-weather-wrapper">
-    <mat-card class="weather-card" appearance="outlined">
-        <mat-card-header class="weather-data">
-            <mat-card-title class="weather-title"> <span mat-card-avatar> <img mat-card-image [src]="weather()?.image" width="40" height="40"
-                        [alt]="weather()?.condition"></span><span class="location">{{weather()?.location}}</span>
-            </mat-card-title>
-            <mat-card-subtitle>{{weather()?.desc}}</mat-card-subtitle>
-            <mat-card-subtitle>{{weather()?.date}}</mat-card-subtitle>
+<article class="weather-display">
+  <header class="weather-header">
+    <div class="location-info">
+      <h2 class="location-name">{{ weather()?.location }}</h2>
+      <p class="location-desc">{{ weather()?.desc }}</p>
+    </div>
+    <time class="weather-time">{{ weather()?.date }}</time>
+  </header>
 
-        </mat-card-header>
+  <div class="weather-main">
+    <div class="temperature-block">
+      <span class="temperature-value">{{ weather()?.temperature }}</span>
+      <span class="temperature-unit">°C</span>
+      <span class="feels-like">Feels like {{ weather()?.feelsLike }}°</span>
+    </div>
 
-        <mat-card-content class="weather-data">
-            <div> {{ weather()?.condition }} </div>
-            <span>Humidity: {{ weather()?.humidity }}% </span>
-            <span>Temperature: {{ weather()?.temperature }}°C </span>
-        </mat-card-content>
-    </mat-card>
-</div>
+    <div class="condition-block">
+      <img
+        class="condition-icon"
+        [src]="weather()?.image"
+        [alt]="weather()?.condition"
+        width="80"
+        height="80">
+      <span class="condition-text">{{ weather()?.condition }}</span>
+    </div>
+  </div>
+
+  <footer class="weather-stats">
+    <div class="stat-item">
+      <span class="stat-icon">💧</span>
+      <div class="stat-content">
+        <span class="stat-value">{{ weather()?.humidity }}%</span>
+        <span class="stat-label">Humidity</span>
+      </div>
+    </div>
+
+    <div class="stat-item">
+      <span class="stat-icon">💨</span>
+      <div class="stat-content">
+        <span class="stat-value">{{ weather()?.windSpeed }} km/h</span>
+        <span class="stat-label">Wind {{ weather()?.windDirection }}</span>
+      </div>
+    </div>
+
+    <div class="stat-item">
+      <span class="stat-icon">📊</span>
+      <div class="stat-content">
+        <span class="stat-value">{{ weather()?.pressure }} mb</span>
+        <span class="stat-label">Pressure</span>
+      </div>
+    </div>
+
+    <div class="stat-item">
+      <span class="stat-icon">☀️</span>
+      <div class="stat-content">
+        <span class="stat-value">{{ weather()?.uvIndex }}</span>
+        <span class="stat-label">UV Index</span>
+      </div>
+    </div>
+
+    <div class="stat-item">
+      <span class="stat-icon">👁️</span>
+      <div class="stat-content">
+        <span class="stat-value">{{ weather()?.visibility }} km</span>
+        <span class="stat-label">Visibility</span>
+      </div>
+    </div>
+
+    <div class="stat-item">
+      <span class="stat-icon">☁️</span>
+      <div class="stat-content">
+        <span class="stat-value">{{ weather()?.cloud }}%</span>
+        <span class="stat-label">Cloud Cover</span>
+      </div>
+    </div>
+  </footer>
+</article>

@@ -38,7 +38,14 @@ export class MeteoService {
       condition: res.current.condition.text,
       image: res.current.condition.icon,
       humidity: res.current.humidity,
-      temperature: Math.round(res.current.temp_c)
+      temperature: Math.round(res.current.temp_c),
+      feelsLike: Math.round(res.current.feelslike_c),
+      windSpeed: Math.round(res.current.wind_kph),
+      windDirection: res.current.wind_dir,
+      pressure: Math.round(res.current.pressure_mb),
+      uvIndex: res.current.uv,
+      visibility: Math.round(res.current.vis_km),
+      cloud: res.current.cloud
     }
   }
 
@@ -53,7 +60,11 @@ export class MeteoService {
         condition: day.day.condition.text,
         image: day.day.condition.icon,
         minTemperature: Math.round(day.day.mintemp_c),
-        maxTemperature: Math.round(day.day.maxtemp_c)
+        maxTemperature: Math.round(day.day.maxtemp_c),
+        chanceOfRain: day.day.daily_chance_of_rain,
+        maxWind: Math.round(day.day.maxwind_kph),
+        avgHumidity: Math.round(day.day.avghumidity),
+        uvIndex: day.day.uv
       })
     )
     return forecast;

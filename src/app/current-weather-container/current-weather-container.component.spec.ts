@@ -33,6 +33,13 @@ describe('CurrentWeatherContainerComponent', () => {
     condition: 'Sunny',
     image: 'test.png',
     date: '2024-03-20',
+    feelsLike: 26,
+    windSpeed: 10,
+    windDirection: 'N',
+    pressure: 1015,
+    uvIndex: 4,
+    visibility: 10,
+    cloud: 15,
   };
 
   beforeEach(async () => {
@@ -100,10 +107,10 @@ describe('CurrentWeatherContainerComponent', () => {
     fixture.detectChanges();
     tick();
 
-    const errorCard = fixture.debugElement.query(By.css('mat-card'));
-    expect(errorCard).toBeTruthy();
-    expect(errorCard.nativeElement.textContent).toContain(
-      'Failed load weather for required location'
+    const errorState = fixture.debugElement.query(By.css('.error-state'));
+    expect(errorState).toBeTruthy();
+    expect(errorState.nativeElement.textContent).toContain(
+      'Unable to load weather'
     );
   }));
 

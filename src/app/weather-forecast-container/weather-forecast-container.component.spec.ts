@@ -34,6 +34,10 @@ describe('WeatherForecastContainerComponent', () => {
         maxTemperature: 25,
         condition: 'Sunny',
         image: 'test.png',
+        chanceOfRain: 10,
+        maxWind: 20,
+        avgHumidity: 50,
+        uvIndex: 5,
       },
     ],
   };
@@ -103,10 +107,10 @@ describe('WeatherForecastContainerComponent', () => {
     fixture.detectChanges();
     tick();
 
-    const errorCard = fixture.debugElement.query(By.css('mat-card'));
-    expect(errorCard).toBeTruthy();
-    expect(errorCard.nativeElement.textContent).toContain(
-      'Failed to load forecast for required location'
+    const errorState = fixture.debugElement.query(By.css('.error-state'));
+    expect(errorState).toBeTruthy();
+    expect(errorState.nativeElement.textContent).toContain(
+      'Unable to load forecast'
     );
   }));
 

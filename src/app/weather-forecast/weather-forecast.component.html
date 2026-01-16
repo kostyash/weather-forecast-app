@@ -1,22 +1,54 @@
-<h2 class="location">{{forecast.location}}</h2>
-<div class="forecast-wrapper">
-    @for (item of forecast.days; track item.date) {
-    <mat-card class="weather-card" appearance="outlined">
-        <mat-card-header class="weather-data">
+<section class="forecast-section">
+  <header class="forecast-header">
+    <h2 class="forecast-title">{{ forecast().location }}</h2>
+    <span class="forecast-subtitle">3-Day Forecast</span>
+  </header>
 
-            <mat-card-title class="weather-title"> <span mat-card-avatar> <img mat-card-image [src]=item.image
-                        width="40" height="40" [alt]="item.condition"></span>
-            </mat-card-title>
-            <mat-card-subtitle>{{item.date}}</mat-card-subtitle>
+  <div class="forecast-grid">
+    @for (item of forecast().days; track item.date; let i = $index) {
+      <article class="forecast-card" [style.animation-delay]="i * 0.1 + 's'">
+        <time class="forecast-date">{{ item.date }}</time>
 
-        </mat-card-header>
+        <div class="forecast-icon-wrapper">
+          <img
+            class="forecast-icon"
+            [src]="item.image"
+            [alt]="item.condition"
+            width="64"
+            height="64">
+        </div>
 
-        <mat-card-content class="weather-data">
-            <div> {{ item.condition }} </div>
-           
-            <span>Temperature: {{ item.minTemperature }}°C - {{ item.maxTemperature }}°C</span>
-        </mat-card-content>
-    </mat-card>
+        <span class="forecast-condition">{{ item.condition }}</span>
+
+        <div class="forecast-temps">
+          <span class="temp-high">{{ item.maxTemperature }}°</span>
+          <span class="temp-divider">/</span>
+          <span class="temp-low">{{ item.minTemperature }}°</span>
+        </div>
+
+        <div class="forecast-details">
+          <div class="detail-item">
+            <span class="detail-icon">🌧️</span>
+            <span class="detail-value">{{ item.chanceOfRain }}%</span>
+            <span class="detail-label">Rain</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">💨</span>
+            <span class="detail-value">{{ item.maxWind }}</span>
+            <span class="detail-label">km/h</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">💧</span>
+            <span class="detail-value">{{ item.avgHumidity }}%</span>
+            <span class="detail-label">Humid</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-icon">☀️</span>
+            <span class="detail-value">{{ item.uvIndex }}</span>
+            <span class="detail-label">UV</span>
+          </div>
+        </div>
+      </article>
     }
-
-</div>
+  </div>
+</section>

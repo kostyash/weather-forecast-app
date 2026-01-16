@@ -1,15 +1,15 @@
-<mat-card appearance="outlined">
-    <mat-card-content>
-        <form class="city-form" [formGroup]="cityForm" (ngSubmit)="onSubmit()">
-
-            <mat-form-field class="dense-3" appearance="outline" subscriptSizing=dynamic>
-                <mat-label>City</mat-label>
-                <input id="city" formControlName="city" matInput>
-            </mat-form-field>
-
-
-            <button type="submit" mat-stroked-button>Search</button>
-
-        </form>
-    </mat-card-content>
-</mat-card>
+<form class="search-form" [formGroup]="cityForm" (ngSubmit)="onSubmit()">
+  <div class="search-input-wrapper">
+    <span class="search-icon">⌕</span>
+    <input
+      type="text"
+      id="city"
+      formControlName="city"
+      placeholder="Search city..."
+      autocomplete="off"
+      class="search-input">
+  </div>
+  <button type="submit" class="search-button">
+    Search
+  </button>
+</form>
