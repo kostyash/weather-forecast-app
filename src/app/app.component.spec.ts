@@ -1,13 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AppComponent } from './app.component';
+import { MeteoService } from './meteo.service';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
+    const meteoServiceMock = {
+      searchLocations: jest.fn().mockReturnValue(of([]))
+    };
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideMockStore({ initialState: { city: '' } }), provideNoopAnimations()]
+      providers: [
+        provideMockStore({ initialState: { city: '' } }),
+        provideNoopAnimations(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: MeteoService, useValue: meteoServiceMock }
+      ]
     }).compileComponents();
   });
 

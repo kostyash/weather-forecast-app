@@ -7,7 +7,23 @@
       formControlName="city"
       placeholder="Search city..."
       autocomplete="off"
-      class="search-input">
+      class="search-input"
+      (keydown)="onKeydown($event)"
+      (blur)="onBlur()"
+      (focus)="onFocus()">
+    @if (showDropdown() && suggestions().length > 0) {
+      <ul class="suggestions-dropdown">
+        @for (suggestion of suggestions(); track suggestion.name; let i = $index) {
+          <li
+            class="suggestion-item"
+            [class.active]="i === activeIndex()"
+            (mousedown)="selectSuggestion(suggestion)">
+            <span class="suggestion-name">{{ suggestion.name }}</span>
+            <span class="suggestion-region">{{ suggestion.region ? suggestion.region + ', ' : '' }}{{ suggestion.country }}</span>
+          </li>
+        }
+      </ul>
+    }
   </div>
   <button type="submit" class="search-button">
     Search

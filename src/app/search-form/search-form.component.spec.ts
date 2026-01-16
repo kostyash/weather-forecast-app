@@ -3,29 +3,43 @@ import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { SearchFormComponent } from './search-form.component';
 import { setCity } from '../state/actions';
+import { MeteoService } from '../meteo.service';
+import { of } from 'rxjs';
 
 describe('SearchFormComponent', () => {
   let component: SearchFormComponent;
   let fixture: ComponentFixture<SearchFormComponent>;
   let store: MockStore;
   let dispatchSpy: jest.SpyInstance;
+  let meteoServiceMock: Partial<MeteoService>;
 
   beforeEach(async () => {
+    meteoServiceMock = {
+      searchLocations: jest.fn().mockReturnValue(of([]))
+    };
+
     await TestBed.configureTestingModule({
       imports: [SearchFormComponent, ReactiveFormsModule],
-      providers: [provideMockStore({ initialState: { city: '' } }), provideNoopAnimations()]
+      providers: [
+        provideMockStore({ initialState: { city: '' } }),
+        provideNoopAnimations(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: MeteoService, useValue: meteoServiceMock }
+      ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(SearchFormComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
-    
-    // Use Jest's spy implementation
+
     dispatchSpy = jest.spyOn(store, 'dispatch');
-    
+
     fixture.detectChanges();
   });
 
@@ -53,46 +67,51 @@ describe('SearchFormComponent', () => {
     cityInput.value = 'New York';
     cityInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
-    
+
     expect(component.cityForm.get('city')?.value).toBe('New York');
   });
 
   it('should dispatch setCity action with trimmed city value on form submission', () => {
-    // Set form value with spaces to test trimming
     component.cityForm.get('city')?.setValue('  London  ');
     fixture.detectChanges();
-    
-    // Trigger form submission
+
     const form = fixture.debugElement.query(By.css('form'));
     form.triggerEventHandler('submit', null);
-    
-    // Verify action was dispatched with trimmed value
+
     expect(dispatchSpy).toHaveBeenCalledWith(setCity({ city: 'London' }));
   });
 
   it('should not dispatch setCity action with empty city value on form submission', () => {
-    // Set empty form value
     component.cityForm.get('city')?.setValue('');
     fixture.detectChanges();
-    
-    // Trigger form submission
+
     const form = fixture.debugElement.query(By.css('form'));
     form.triggerEventHandler('submit', null);
-    
-    // Verify action was dispatched with empty string
-    expect(dispatchSpy).toHaveBeenCalledWith(setCity({ city: '' }));
+
+    expect(dispatchSpy).not.toHaveBeenCalled();
   });
 
-  it('should trim whitespace from city value before dispatching', () => {
-    // Test with only whitespace
+  it('should not dispatch setCity action when only whitespace on form submission', () => {
     component.cityForm.get('city')?.setValue('   ');
     fixture.detectChanges();
-    
-    // Trigger form submission
+
     const form = fixture.debugElement.query(By.css('form'));
     form.triggerEventHandler('submit', null);
-    
-    // Verify action was dispatched with empty string after trimming
-    expect(dispatchSpy).toHaveBeenCalledWith(setCity({ city: '' }));
+
+    expect(dispatchSpy).not.toHaveBeenCalled();
+  });
+
+  it('should initialize with dropdown hidden', () => {
+    expect(component.showDropdown()).toBe(false);
+    expect(component.suggestions().length).toBe(0);
+  });
+
+  it('should select suggestion and dispatch action', () => {
+    const suggestion = { name: 'Tel Aviv', region: 'Tel Aviv', country: 'Israel' };
+    component.selectSuggestion(suggestion);
+
+    expect(component.cityForm.get('city')?.value).toBe('Tel Aviv');
+    expect(dispatchSpy).toHaveBeenCalledWith(setCity({ city: 'Tel Aviv' }));
+    expect(component.showDropdown()).toBe(false);
   });
 });

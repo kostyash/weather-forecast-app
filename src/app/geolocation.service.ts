@@ -23,6 +23,11 @@ export class GeolocationService {
         },
         (error) => {
           observer.error(error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 300000
         }
       );
     });

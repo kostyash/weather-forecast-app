@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of, switchMap } from 'rxjs';
-import { CurrentWeather, Forecast } from './contracts';
+import { CurrentWeather, Forecast, LocationSuggestion } from './contracts';
 import { GeolocationService } from './geolocation.service';
 
 @Injectable({
@@ -28,6 +28,19 @@ export class MeteoService {
     return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
       .pipe(switchMap(location => this.http.get(`${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`)),
         map((res: any) => this.transformToCurrentWeather(res)));
+  }
+
+  searchLocations(query: string): Observable<LocationSuggestion[]> {
+    if (!query || query.length < 2) {
+      return of([]);
+    }
+    return this.http.get<any[]>(`${this.baseUrl}/search.json?q=${encodeURIComponent(query)}&key=${this.API_KEY}`).pipe(
+      map(results => results.map(r => ({
+        name: r.name,
+        region: r.region,
+        country: r.country
+      })))
+    );
   }
 
   private transformToCurrentWeather(res: any): CurrentWeather {

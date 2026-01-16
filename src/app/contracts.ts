@@ -40,3 +40,9 @@ export interface GeoLocation {
 export interface LocationState{
     city: string;
 }
+
+export interface LocationSuggestion {
+    name: string;
+    region: string;
+    country: string;
+}
