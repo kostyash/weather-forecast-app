@@ -1,59 +1,69 @@
-# WeatherForecastApp
+# Weather Forecast App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
+An Angular 20 weather forecast application featuring current weather conditions and 3-day forecasts using the WeatherAPI.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Current weather display with detailed conditions
+- 3-day weather forecast
+- Location autocomplete search
+- Geolocation support
+- Dark theme UI
+- HTTP response caching
 
-```bash
-ng serve
-```
+## Tech Stack
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Angular 20** with standalone components
+- **NgRx** for state management
+- **Angular Material** for UI components
+- **Jest** for unit testing
 
-## Code scaffolding
+## Getting Started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Prerequisites
 
-```bash
-ng generate component component-name
-```
+- Node.js 18+
+- Yarn
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Installation
 
 ```bash
-ng build
+yarn install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Development
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Navigate to `http://localhost:4200/`
 
-For end-to-end (e2e) testing, run:
+### Build
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Testing
 
-## Additional Resources
+```bash
+npm run test              # Single run
+npm run test:watch        # Watch mode
+npm run test:coverage     # With coverage report
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Architecture
+
+The app follows a **container/presentational component pattern**:
+
+- **Container components** (`*-container/`) handle state and data fetching via NgRx
+- **Presentational components** receive data via `input()` signals and render UI
+
+### State Management
+
+NgRx store manages the selected city. Components select from store and services fetch weather data accordingly.
+
+### Caching
+
+HTTP GET requests to WeatherAPI are cached for 10 minutes via `CachingInterceptor`.
