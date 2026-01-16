@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SearchFormComponent } from './search-form/search-form.component';
 
@@ -6,7 +6,8 @@ import { SearchFormComponent } from './search-form/search-form.component';
   selector: 'app-root',
   imports: [RouterOutlet, SearchFormComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   title = 'weather-forecast-app';

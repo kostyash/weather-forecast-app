@@ -60,36 +60,50 @@ export class MeteoService {
   private http = inject(HttpClient);
   private geolocationService = inject(GeolocationService);
 
-  readonly API_KEY = '2e27373ae895408b87b175243251501';
-  readonly baseUrl = `http://api.weatherapi.com/v1`;
-  readonly forecastDays = 3;
+  private readonly API_KEY = '2e27373ae895408b87b175243251501';
+  private readonly baseUrl = 'http://api.weatherapi.com/v1';
+  private readonly forecastDays = 3;
 
   getForeCastByCity(city: string): Observable<Forecast> {
-    return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
-      .pipe(
-        switchMap(location => this.http.get<WeatherApiForecastResponse>(`${this.baseUrl}/forecast.json?q=${location}&days=${this.forecastDays}&key=${this.API_KEY}`)),
-        map(res => this.transformToForecastWeather(res))
-      );
+    return this.getLocationQuery(city).pipe(
+      switchMap(location => this.http.get<WeatherApiForecastResponse>(
+        `${this.baseUrl}/forecast.json?q=${location}&days=${this.forecastDays}&key=${this.API_KEY}`
+      )),
+      map(res => this.transformToForecastWeather(res))
+    );
   }
 
   getCurrentWeatherByCity(city: string): Observable<CurrentWeather> {
-    return (city ? of(city) : this.geolocationService.getGeoLocation().pipe(map(location => `${location.latitude},${location.longitude}`)))
-      .pipe(
-        switchMap(location => this.http.get<WeatherApiCurrentResponse>(`${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`)),
-        map(res => this.transformToCurrentWeather(res))
-      );
+    return this.getLocationQuery(city).pipe(
+      switchMap(location => this.http.get<WeatherApiCurrentResponse>(
+        `${this.baseUrl}/current.json?q=${location}&key=${this.API_KEY}`
+      )),
+      map(res => this.transformToCurrentWeather(res))
+    );
   }
 
   searchLocations(query: string): Observable<LocationSuggestion[]> {
     if (!query || query.length < 2) {
       return of([]);
     }
-    return this.http.get<WeatherApiSearchResult[]>(`${this.baseUrl}/search.json?q=${encodeURIComponent(query)}&key=${this.API_KEY}`).pipe(
+
+    return this.http.get<WeatherApiSearchResult[]>(
+      `${this.baseUrl}/search.json?q=${encodeURIComponent(query)}&key=${this.API_KEY}`
+    ).pipe(
       map(results => results.map(r => ({
         name: r.name,
         region: r.region,
         country: r.country
       })))
+    );
+  }
+
+  private getLocationQuery(city: string): Observable<string> {
+    if (city) {
+      return of(city);
+    }
+    return this.geolocationService.getGeoLocation().pipe(
+      map(location => `${location.latitude},${location.longitude}`)
     );
   }
 

@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -11,9 +11,13 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)
-    , provideHttpClient(withInterceptors([cachingInterceptor])),
-     provideStore(),
-      provideState({ name: FeatureKey, reducer: locationReducer }),
-      provideStoreDevtools({ maxAge: 25, logOnly: false }), provideAnimationsAsync()]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([cachingInterceptor])),
+    provideStore(),
+    provideState({ name: FeatureKey, reducer: locationReducer }),
+    ...(isDevMode() ? [provideStoreDevtools({ maxAge: 25, logOnly: false })] : []),
+    provideAnimationsAsync()
+  ]
 };

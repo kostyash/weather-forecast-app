@@ -15,7 +15,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { MeteoService } from '../meteo.service';
 import { FeatureKey } from '../state/selectors';
 import { By } from '@angular/platform-browser';
-import { of, throwError } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe('WeatherForecastContainerComponent', () => {
@@ -75,23 +75,29 @@ describe('WeatherForecastContainerComponent', () => {
   });
 
   it('should show loading state initially', fakeAsync(() => {
+    // Use a Subject to control when data is emitted
+    const forecastSubject = new Subject();
+    jest
+      .spyOn(meteoService, 'getForeCastByCity')
+      .mockReturnValue(forecastSubject.asObservable() as any);
+
     // Set an initial city to trigger the loading state
     store.setState({
       [FeatureKey]: { city: 'test-city' },
     });
 
     fixture.detectChanges();
-    tick(); // Wait for async pipe
-    fixture.detectChanges(); // Detect changes after async pipe updates
+    tick();
+    fixture.detectChanges();
 
     const loadingSpinner = fixture.debugElement.query(By.css('mat-spinner'));
     expect(loadingSpinner).toBeTruthy();
 
-    // Mock the HTTP request to prevent unhandled request error
-    const req = httpMock.expectOne(
-      'http://api.weatherapi.com/v1/forecast.json?q=test-city&days=3&key=2e27373ae895408b87b175243251501'
-    );
-    req.flush({}); // Respond with empty object
+    // Complete the test by emitting data
+    forecastSubject.next(mockForecast);
+    forecastSubject.complete();
+    tick();
+    fixture.detectChanges();
   }));
 
   it('should handle error state', fakeAsync(() => {
@@ -106,6 +112,7 @@ describe('WeatherForecastContainerComponent', () => {
 
     fixture.detectChanges();
     tick();
+    fixture.detectChanges();
 
     const errorState = fixture.debugElement.query(By.css('.error-state'));
     expect(errorState).toBeTruthy();

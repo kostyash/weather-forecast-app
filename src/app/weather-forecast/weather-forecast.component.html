@@ -6,7 +6,7 @@
 
   <div class="forecast-grid">
     @for (item of forecast().days; track item.date; let i = $index) {
-      <article class="forecast-card" [style.animation-delay]="i * 0.1 + 's'">
+      <article class="forecast-card" [style.animation-delay]="(i * 0.1) + 's'">
         <time class="forecast-date">{{ item.date }}</time>
 
         <div class="forecast-icon-wrapper">
@@ -15,7 +15,8 @@
             [src]="item.image"
             [alt]="item.condition"
             width="64"
-            height="64">
+            height="64"
+            loading="lazy">
         </div>
 
         <span class="forecast-condition">{{ item.condition }}</span>
