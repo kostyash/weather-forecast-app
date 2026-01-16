@@ -111,4 +111,48 @@ describe('MeteoService', () => {
     const req = httpMock.expectOne((r) => r.url.includes('forecast.json'));
     req.error(new ErrorEvent('fail'));
   });
+
+  describe('searchLocations', () => {
+    it('should return empty array for empty query', (done) => {
+      service.searchLocations('').subscribe((results) => {
+        expect(results).toEqual([]);
+        done();
+      });
+      // No HTTP request should be made
+      httpMock.expectNone((r) => r.url.includes('search.json'));
+    });
+
+    it('should return empty array for query with less than 2 characters', (done) => {
+      service.searchLocations('L').subscribe((results) => {
+        expect(results).toEqual([]);
+        done();
+      });
+      httpMock.expectNone((r) => r.url.includes('search.json'));
+    });
+
+    it('should search locations for valid query', (done) => {
+      const mockResults = [
+        { name: 'London', region: 'England', country: 'UK' },
+        { name: 'Los Angeles', region: 'California', country: 'USA' },
+      ];
+
+      service.searchLocations('Lon').subscribe((results) => {
+        expect(results.length).toBe(2);
+        expect(results[0].name).toBe('London');
+        expect(results[0].region).toBe('England');
+        expect(results[0].country).toBe('UK');
+        done();
+      });
+
+      const req = httpMock.expectOne((r) => r.url.includes('search.json') && r.url.includes('Lon'));
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResults);
+    });
+
+    it('should encode special characters in query', () => {
+      service.searchLocations('Tel Aviv').subscribe();
+      const req = httpMock.expectOne((r) => r.url.includes('search.json') && r.url.includes('Tel%20Aviv'));
+      req.flush([]);
+    });
+  });
 });
